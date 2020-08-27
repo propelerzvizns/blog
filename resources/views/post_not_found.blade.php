@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title></title>
+    <title></title>
     </head>
     <body>
     <h1>post not found</h1>

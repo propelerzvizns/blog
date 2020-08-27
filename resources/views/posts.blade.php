@@ -1,8 +1,8 @@
-<html>
-    <head>
-        <title>Posts</title>
-    </head>
-    <body>
+@extends('layouts.main')
+@section('title', 'Posts')
+
+
+@section('content')
         
     @foreach ($posts as $post)
         <div>
@@ -10,6 +10,5 @@
       
         </div>
     @endforeach
-    
-    </body>
+@endsection
 </html>
