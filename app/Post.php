@@ -12,4 +12,6 @@ class Post extends Model
         return random_int(1,10);
     
     }
+
+    protected $guarded = [];
 }

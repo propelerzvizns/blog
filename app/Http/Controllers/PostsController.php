@@ -40,6 +40,20 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->validate([
+            'title' => 'required|string|max:50|unique:posts',
+            'body' => 'required|string',
+            'is_published' => 'sometimes|integer|min:0|max:1'
+        ]);
+
+        // $newPost = new Post;
+        // $newPost->title = $data['title'];
+        // $newPost->body = $data['body'];
+        // $newPost->is_published = $request->get('is_published', false);
+
+        // $newPost->save();
+        Post::create($data);
+        return redirect('/posts');
     }
 
     /**

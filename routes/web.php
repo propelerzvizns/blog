@@ -18,7 +18,9 @@ Route::get('/', function (){
 });
 Route::get('/posts', 'PostsController@index');
 
-Route::get('posts/{id}', 'PostsController@show')->name('singlePost');
+Route::get('/posts/create', 'PostsController@create')->name('createPostForm');
+Route::post('posts', 'PostsController@store');
 
 
-Route::get('create', 'PostsController@create');
+Route::get('/posts/{id}', 'PostsController@show')->name('singlePost');
+
