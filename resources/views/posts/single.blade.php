@@ -3,10 +3,25 @@
 @section('content')
     <h1>{{$title}}</h1>
     <p>{{$body}}</p>
-    <ul>
+    <h1>Posts comments</h1>
     @foreach($comments as $comment)
-    <li>{{$comment->body}}</li>
+    <div class="alert alert-success">{{$comment->body}}</div>
+    
         
     @endforeach
-</ul>
+
+<form method="POST" action="/posts/{{$id}}/comments">
+        @csrf
+    
+        
+            <div class="form-group">
+              <label for="comment">comment</label>
+              <input class="form-control @error('comment') is-invalid @enderror" id="comment" name="comment">
+                @error('comment')
+            <div class="alert alert-danger">{{$message}}</div>
+                @enderror
+            </div>
+    
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
 @endsection

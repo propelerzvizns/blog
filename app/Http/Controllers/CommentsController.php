@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Http\Requests\CreatePostRequest;
-use App\Post;
+use Illuminate\Http\Request;
 use App\Comment;
+use App\Http\Requests\createCommentRequest;
 
-
-class PostsController extends Controller
+class CommentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts =Post::where('is_published', 1)->with('comments')->get();
-        return view('posts.all', compact('posts'));
+        //
     }
 
     /**
@@ -29,7 +26,6 @@ class PostsController extends Controller
     public function create()
     {
         //
-        return view('posts.create');
     }
 
     /**
@@ -38,19 +34,20 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreatePostRequest $request)
+    public function store(createCommentRequest $request, $id)
     {
         //
-        $data = $request->validated();
+        $data = $request->validated(
+        );
 
-        // $newPost = new Post;
-        // $newPost->title = $data['title'];
-        // $newPost->body = $data['body'];
-        // $newPost->is_published = $request->get('is_published', false);
-
-        // $newPost->save();
-        Post::create($data);
-        return redirect('/posts');
+        Comment::create(
+            [
+               'body' => $data['comment'],
+                'post_id' => $id
+            ]
+        );
+        return redirect('/posts/'.$id);
+        
     }
 
     /**
@@ -61,21 +58,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        $post = Post::findOrFail($id);
-        // $comments = Comment::where('post_id' , $id)->get();
-        $comments = $post->comments;
-        // info('got comments');
-
-    
-        $title = $post->title;
-        $body = $post->body;
-        // info(compact('title', 'body', 'comments'));
-        return view('posts.single', [
-            'id' => $post->id,
-            'title' => $title,
-            'body' => $body,
-            'comments' => $comments
-        ]);
+        //
     }
 
     /**
