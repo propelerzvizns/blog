@@ -17,7 +17,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts =Post::where('is_published', 1)->get();
+        $posts =Post::where('is_published', 1)->with('comments')->get();
         return view('posts.all', compact('posts'));
     }
 
@@ -64,11 +64,17 @@ class PostsController extends Controller
         $post = Post::findOrFail($id);
         // $comments = Comment::where('post_id' , $id)->get();
         $comments = $post->comments;
+        // info('got comments');
 
     
         $title = $post->title;
         $body = $post->body;
-        return view('posts.single', compact('title', 'body', 'comments'));
+        // info(compact('title', 'body', 'comments'));
+        return view('posts.single', [
+            'title' => $title,
+            'body' => $body,
+            'comments' => $comments
+        ]);
     }
 
     /**

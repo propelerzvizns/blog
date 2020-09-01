@@ -8,7 +8,8 @@
     @foreach ($posts as $post)
         <div>
             
-        <h3><a href="{{route('singlePost', ['id' => $post->id])}}">{{$post->title}}</a></h3>
+        <h3><a href="{{route('singlePost', ['id' => $post->id])}}">{{$post->title}}</a> comments({{$post->comments->count()}})</h3>
+        
       
         </div>
     @endforeach
