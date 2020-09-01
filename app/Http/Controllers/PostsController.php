@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePostRequest;
 use App\Post;
+use App\Comment;
 
 
 class PostsController extends Controller
@@ -61,11 +62,13 @@ class PostsController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
+        // $comments = Comment::where('post_id' , $id)->get();
+        $comments = $post->comments;
 
     
         $title = $post->title;
         $body = $post->body;
-        return view('posts.single', compact('title', 'body'));
+        return view('posts.single', compact('title', 'body', 'comments'));
     }
 
     /**
