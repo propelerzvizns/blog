@@ -16,15 +16,29 @@ use App\Post;
 Route::get('/', function (){
     return view('welcome');
 });
-Route::get('/posts', 'PostsController@index');
-
-Route::get('/posts/create', 'PostsController@create')->name('createPostForm');
-Route::post('posts', 'PostsController@store');
 
 
-Route::get('/posts/{id}', 'PostsController@show')->name('singlePost');
-Route::post('/posts/{id}/comments', 'CommentsController@store');
+Route::group(['middleware' => 'guest'], function(){
+    Route::get('/register', 'AuthController@getRegisterForm');
+    Route::post('/users', 'AuthController@register');
+    Route::get('/login', 'AuthController@getLoginForm')->name('login');
+    Route::post('/login', 'AuthController@login');
+});
 
-Route::get('/register', 'AuthController@getRegisterForm');
-Route::post('/users', 'AuthController@register');
+Route::group(['middleware'=> 'auth'], function(){
+    Route::get('/posts', 'PostsController@index');
+
+    Route::get('/posts/create', 'PostsController@create')->name('createPostForm');
+    Route::post('posts', 'PostsController@store');
+    Route::get('/posts/{id}', 'PostsController@show')->name('singlePost');
+
+    Route::post('/posts/{id}/comments', 'CommentsController@store');
+    Route::get('/users/{id}', 'UsersController@show');
+});
+
+Route::get('/logout', 'AuthController@logout')->middleware('auth');
+
+Route::get('/account-verification/{id}', 'UsersController@');
+
+
 

@@ -17,8 +17,9 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts =Post::where('is_published', 1)->with('comments')->get();
+        $posts =Post::where('is_published', 1)->with('comments')->paginate(15);
         return view('posts.all', compact('posts'));
+      
     }
 
     /**
@@ -43,13 +44,8 @@ class PostsController extends Controller
         //
         $data = $request->validated();
 
-        // $newPost = new Post;
-        // $newPost->title = $data['title'];
-        // $newPost->body = $data['body'];
-        // $newPost->is_published = $request->get('is_published', false);
-
-        // $newPost->save();
-        Post::create($data);
+        // $data['user_id'] = auth()->user()->id;
+        auth()->user()->posts()->create($data);
         return redirect('/posts');
     }
 
@@ -62,14 +58,12 @@ class PostsController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
-        // $comments = Comment::where('post_id' , $id)->get();
         $comments = $post->comments;
-        // info('got comments');
 
     
         $title = $post->title;
         $body = $post->body;
-        // info(compact('title', 'body', 'comments'));
+
         return view('posts.single', [
             'id' => $post->id,
             'title' => $title,

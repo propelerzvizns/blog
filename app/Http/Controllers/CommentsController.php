@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Comment;
 use App\Http\Requests\createCommentRequest;
+use App\Post;
 
 class CommentsController extends Controller
 {
@@ -39,13 +40,15 @@ class CommentsController extends Controller
         //
         $data = $request->validated(
         );
+        $post = Post::findOrFail($id);
+        $post->createComment($data['comment']);
 
-        Comment::create(
-            [
-               'body' => $data['comment'],
-                'post_id' => $id
-            ]
-        );
+        // Comment::create(
+        //     [
+        //        'body' => $data['comment'],
+        //         'post_id' => $id
+        //     ]
+        // );
         return redirect('/posts/'.$id);
         
     }
